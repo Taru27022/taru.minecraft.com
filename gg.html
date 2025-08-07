@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Master Guide - Your Ultimate Gaming Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d2d5f 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.1), rgba(34, 211, 238, 0.1), rgba(168, 85, 247, 0.1), transparent);
+            animation: navSlide 3s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4ade80;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.35s ease;
+            position: relative;
+            padding: 0.5em 0.8em;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .nav-links a::before,
+        .nav-links a::after {
+            content: '';
+            height: 14px;
+            width: 14px;
+            position: absolute;
+            transition: all 0.35s ease;
+            opacity: 0;
+        }
+
+        .nav-links a::before {
+            content: '';
+            right: 0;
+            top: 0;
+            border-top: 3px solid #4ade80;
+            border-right: 3px solid #22d3ee;
+            transform: translate(-100%, 50%);
+        }
+
+        .nav-links a::after {
+            content: '';
+            left: 0;
+            bottom: 0;
+            border-bottom: 3px solid #22d3ee;
+            border-left: 3px solid #4ade80;
+            transform: translate(100%, -50%);
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a:hover::after {
+            transform: translate(0, 0);
+            opacity: 1;
+        }
+
+        .nav-links a:hover {
+            color: #4ade80;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #4ade80, #22d3ee, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #4ade80, #22d3ee);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 60%; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 40%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 80%; left: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { top: 30%; left: 90%; animation-delay: 4s; }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #4ade80, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Guide Cards Grid */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .guide-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(74, 222, 128, 0.1), rgba(34, 211, 238, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .guide-card:hover::before {
+            opacity: 1;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.3);
+        }
+
+        .guide-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #4ade80;
+            position: relative;
+            z-index: 2;
+        }
+
+        .guide-card p {
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 1.5rem;
+        }
+
+        .minecraft-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 3D Hover Effect Cards */
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            perspective: 1000px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 211, 238, 0.1));
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.6s ease;
+            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: rotateY(10deg) rotateX(10deg) translateZ(20px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(74, 222, 128, 0.05), rgba(168, 85, 247, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Glowing boxes */
+        .glow-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .glow-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, rgba(74, 222, 128, 0.3), rgba(34, 211, 238, 0.3));
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glow-box:hover::before {
+            opacity: 1;
+        }
+
+        .glow-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(74, 222, 128, 0.2);
+        }
+
+        /* Shortcuts section */
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .shortcut-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #4ade80;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .shortcut-item:hover {
+            background: rgba(74, 222, 128, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(74, 222, 128, 0.2);
+        }
+
+        .shortcut-key {
+            background: #4ade80;
+            color: #000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-family: monospace;
+            margin-right: 1rem;
+        }
+
+        /* Video hover effect simulation */
+        .video-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: linear-gradient(45deg, #1a1a3a, #2d2d5f);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-card::before {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: #4ade80;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover::before {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .guide-grid,
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(74, 222, 128, 0.8), 0 0 40px rgba(34, 211, 238, 0.5);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes navSlide {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: -100%;
+            }
+        }
+
+        /* Scroll progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #4ade80, #22d3ee);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">⛏️ Minecraft Master</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#guides">Guides</a></li>
+                <li><a href="#shortcuts">Shortcuts</a></li>
+                <li><a href="#features">Features</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        
+        <div class="hero-content">
+            <h1>Master Minecraft</h1>
+            <p>Your ultimate guide to conquering the blocky world. Learn shortcuts, strategies, and secrets to become a Minecraft pro!</p>
+            <a href="#guides" class="cta-button">Start Your Journey</a>
+        </div>
+    </section>
+
+    <section id="guides" class="section">
+        <div class="container">
+            <h2 class="section-title">Essential Guides</h2>
+            
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <div class="minecraft-icon">🏠</div>
+                    <h3>Building Basics</h3>
+                    <p>Learn the fundamentals of construction, from simple shelters to magnificent castles. Master block placement, structural integrity, and aesthetic design principles.</p>
+                    <div class="glow-box">
+                        <strong>Key Topics:</strong> Foundation laying, wall construction, roofing techniques, interior design, and advanced building patterns.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="minecraft-icon">⚔️</div>
+                    <h3>Combat & Survival</h3>
+                    <p>Survive the night and conquer hostile mobs. Learn combat mechanics, weapon crafting, and defensive strategies to thrive in dangerous situations.</p>
+                    <div class="glow-box">
+                        <strong>Essential Skills:</strong> Weapon crafting, armor optimization, mob behavior patterns, and tactical combat approaches.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="minecraft-icon">⛏️</div>
+                    <h3>Mining & Resources</h3>
+                    <p>Discover the secrets of efficient mining. Learn ore distribution, mining techniques, and resource management to maximize your material gathering.</p>
+                    <div class="glow-box">
+                        <strong>Mining Mastery:</strong> Strip mining, branch mining, cave exploration, and enchantment optimization for tools.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="minecraft-icon">🌾</div>
+                    <h3>Farming & Food</h3>
+                    <p>Create sustainable food sources and automated farms. Master crop rotation, animal breeding, and advanced farming techniques for endless resources.</p>
+                    <div class="glow-box">
+                        <strong>Farm Types:</strong> Crop farms, animal breeding, automated systems, and efficient food production methods.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="minecraft-icon">🔴</div>
+                    <h3>Redstone Engineering</h3>
+                    <p>Unlock the power of Minecraft's electrical system. Build complex contraptions, automated machines, and impressive redstone circuits.</p>
+                    <div class="glow-box">
+                        <strong>Redstone Basics:</strong> Logic gates, timing circuits, piston mechanics, and advanced automation systems.
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="minecraft-icon">🌍</div>
+                    <h3>Exploration & Adventure</h3>
+                    <p>Navigate the vast Minecraft world with confidence. Learn navigation techniques, dimension travel, and how to find rare structures and biomes.</p>
+                    <div class="glow-box">
+                        <strong>Adventure Skills:</strong> Map reading, compass usage, portal construction, and treasure hunting strategies.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shortcuts" class="section">
+        <div class="container">
+            <h2 class="section-title">Essential Shortcuts</h2>
+            
+            <div class="shortcuts-grid">
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F3</span>
+                    <strong>Debug Screen</strong> - View coordinates, biome info, and performance data
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F5</span>
+                    <strong>Camera View</strong> - Switch between first and third person perspectives
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Shift</span>
+                    <strong>Sneak</strong> - Move quietly and prevent falling off edges
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Ctrl</span>
+                    <strong>Sprint</strong> - Run faster and jump further distances
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Space</span>
+                    <strong>Jump</strong> - Leap over obstacles and climb blocks
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Q</span>
+                    <strong>Drop Item</strong> - Quickly drop selected items from inventory
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">E</span>
+                    <strong>Inventory</strong> - Open your inventory and crafting interface
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F11</span>
+                    <strong>Fullscreen</strong> - Toggle fullscreen mode for immersive gameplay
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">1-9</span>
+                    <strong>Hotbar</strong> - Quickly select items in your hotbar slots
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">Tab</span>
+                    <strong>Player List</strong> - View online players in multiplayer mode
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">T</span>
+                    <strong>Chat</strong> - Open chat window to communicate with other players
+                </div>
+                <div class="shortcut-item">
+                    <span class="shortcut-key">F2</span>
+                    <strong>Screenshot</strong> - Capture and save screenshots of your world
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title">Advanced Features</h2>
+            
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="minecraft-icon">🎮</div>
+                    <h3>Game Mechanics</h3>
+                    <p>Deep dive into Minecraft's core systems including physics, mob AI, world generation, and game rules that govern your experience.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="minecraft-icon">🏆</div>
+                    <h3>Achievements</h3>
+                    <p>Complete challenging achievements and unlock advancement trees. Track your progress and discover hidden goals throughout your journey.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="minecraft-icon">🔧</div>
+                    <h3>Mods & Customization</h3>
+                    <p>Enhance your gameplay with modifications, texture packs, and custom content. Learn how to safely install and manage game modifications.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="minecraft-icon">👥</div>
+                    <h3>Multiplayer Tips</h3>
+                    <p>Master multiplayer gameplay with server etiquette, collaboration strategies, and competitive techniques for various game modes.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="minecraft-icon">🎨</div>
+                    <h3>Creative Mode</h3>
+                    <p>Unleash unlimited creativity with infinite resources, flight capabilities, and advanced building tools for spectacular constructions.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="minecraft-icon">⚡</div>
+                    <h3>Performance Optimization</h3>
+                    <p>Optimize your game settings, manage resource usage, and troubleshoot common performance issues for smooth gameplay.</p>
+                </div>
+            </div>
+
+            <div class="glow-box">
+                <h3>🎬 Video Tutorials</h3>
+                <p>Watch comprehensive video guides covering advanced techniques and strategies.</p>
+                <div class="video-card">
+                    <span style="color: #4ade80; font-size: 1.2rem;">Advanced Building Techniques - Click to Play</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(15, 15, 35, 0.98)';
+            } else {
+                header.style.background = 'rgba(15, 15, 35, 0.95)';
+            }
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Interactive card effects
+        document.querySelectorAll('.guide-card, .feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Video card click simulation
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.background = 'linear-gradient(45deg, #4ade80, #22d3ee)';
+                this.innerHTML = '<span style="color: #000; font-weight: bold;">Video Playing... 🎮</span>';
+                
+                setTimeout(() => {
+                    this.style.background = 'linear-gradient(45deg, #1a1a3a, #2d2d5f)';
+                    this.innerHTML = '<span style="color: #4ade80; font-size: 1.2rem;">Advanced Building Techniques - Click to Play</span>';
+                }, 3000);
+            });
+        });
+
+        // Add floating animation to particles
+        document.querySelectorAll('.particle').forEach((particle, index) => {
+            particle.style.animationDelay = `${index * 0.5}s`;
+            particle.style.animationDuration = `${4 + Math.random() * 4}s`;
+        });
+
+        // Dynamic glow effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            document.querySelectorAll('.glow-box').forEach((box, index) => {
+                const delay = index * 0.1;
+                const glowIntensity = Math.sin(scrollPercent * Math.PI * 2 + delay) * 0.5 + 0.5;
+                box.style.boxShadow = `0 0 ${20 + glowIntensity * 20}px rgba(74, 222, 128, ${0.1 + glowIntensity * 0.2})`;
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96b7c61d506c5984',t:'MTc1NDU4MDE5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
